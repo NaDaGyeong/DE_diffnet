@@ -34,6 +34,24 @@ class INFRADataset(MonoDataset):
     def check_depth(self):
         return False
 
+    def index_to_folder_and_frame_idx(self, index):
+        """Convert index in the dataset to a folder name, frame_idx and any other bits
+        """
+        line = self.filenames[index].split()
+        folder = line[0]
+
+        if len(line) == 3:
+            frame_index = int(line[1])
+        else:
+            frame_index = 0
+
+        if len(line) == 3:
+            side = line[2]
+        else:
+            side = None
+
+        return folder, frame_index, side
+
     def get_image_path(self, folder, frame_index, side):
         f_str = "{:010d}.jpg".format(frame_index-1)
         image_path = os.path.join(self.data_path, folder, f_str)
